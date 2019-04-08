@@ -88,7 +88,6 @@ function moveWest(piece, allPositions){
     }
 }
 
-
 function moveEast(piece, allPositions){
     let answer = ''
     if (piece.team === 'black'){
@@ -124,6 +123,77 @@ function moveEast(piece, allPositions){
         }return answer
     }
 }
+//when a piece is touched movewest and moveEast are called, the possible moves will turn blur
+function jumpWest(piece, allPositions){
+    if (piece.team === 'black'){
+        possibleMoveWest = [piece.position[0]-1, piece.position[1]+1];
+        for (let i=0; i< allPositions.length; i+=1){
+            if(allPositions[i][0] === possibleMoveWest[0] && allPositions[i][1] === possibleMoveWest[1]){
+                for (let j = 0; j<= allPositions.length; j+=1){
+                    possibleJumpWest = [piece.position[0]-2, piece.position[1]+2]
+                    if(allPositions[j][0] === possibleJumpWest[0] && allPositions[j][1] === possibleJumpWest[1]){
+                        break
+                    }
+                    else{
+                        return "possible jump"
+                    }
+                }
+            }
+        }
+    }
+    else {
+        possibleMoveWest = [piece.position[0]-1, piece.position[1]-1];
+        for (let i=0; i< allPositions.length; i+=1){
+            if(allPositions[i][0] === possibleMoveWest[0] && allPositions[i][1] === possibleMoveWest[1]){
+                for (let j = 0; j<= allPositions.length; j+=1){
+                    possibleJumpWest = [piece.position[0]-2, piece.position[1]-2]
+                    if(allPositions[j][0] === possibleJumpWest[0] && allPositions[j][1] === possibleJumpWest[1]){
+                        break
+                    }
+                    else{
+                        return "possible jump"
+                    }
+                }
+            }
+        }
+    }
+}
+
+function jumpEast(piece, allPositions){
+    if (piece.team === 'black'){
+        possibleMoveEast = [piece.position[0]+1, piece.position[1]+1];
+        for (let i=0; i< allPositions.length; i+=1){
+            if(allPositions[i][0] === possibleMoveEast[0] && allPositions[i][1] === possibleMoveEast[1]){
+                for (let j = 0; j<= allPositions.length; j+=1){
+                    possibleJumpEast = [piece.position[0]+2, piece.position[1]+2]
+                    if(allPositions[j][0] === possibleJumpEast[0] && allPositions[j][1] === possibleJumpEast[1]){
+                        break
+                    }
+                    else{
+                        return "possible jump"
+                    }
+                }
+            }
+        }
+    }
+    else {
+        possibleMoveEast = [piece.position[0]+1, piece.position[1]-1];
+        for (let i=0; i< allPositions.length; i+=1){
+            if(allPositions[i][0] === possibleMoveEast[0] && allPositions[i][1] === possibleMoveEast[1]){
+                for (let j = 0; j<= allPositions.length; j+=1){
+                    possibleJumpEast = [piece.position[0]+2, piece.position[1]-2]
+                    if(allPositions[j][0] === possibleJumpEast[0] && allPositions[j][1] === possibleJumpEast[1]){
+                        break
+                    }
+                    else{
+                        return "possible jump"
+                    }
+                }
+            }
+        }
+    }
+}
+
 // function Jump(piece, allPositions)
 //     returns possibleJumps[]
 
