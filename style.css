@@ -1,0 +1,34 @@
+.container{
+    display: flex;
+    width: 836px;
+    height:104.5px;
+}
+.board{
+    width: 835px;
+    height:835px;
+    background-image: url("images/backgroundImage.png");
+
+}
+.ice {
+    content: url("images/ice.jpeg");
+    background-size: 104.5px 104.5px
+    
+}
+.container > div {
+    width: 104.5px;
+    height:100.5px;
+    
+}
+.fire {
+    content: url("images/redemoji.png");
+    background-size: 104.5px 104.5px
+    
+}
+.possible {
+    content: url("images/possible.jpg");
+    background-size: 100.5px 104.5px
+}
+.possibleJump {
+    content: url("images/exclamation.png");
+    background-size: 100.5px 104.5px
+}
