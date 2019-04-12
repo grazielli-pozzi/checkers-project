@@ -37,6 +37,7 @@ function createRedPieces() {
 }
 const redPieces = createRedPieces();
 const blackPieces = createBlackPieces();
+
 function placePieces(arrPieces) {
     for (let i = 0; i < arrPieces.length; i += 1) {
         let pieceSlot = document.querySelector(`#y-${arrPieces[i].position[1].toString()} > .x-${arrPieces[i].position[0].toString()}`);
@@ -60,28 +61,55 @@ function start(){
     
 }
 function turnBlackSpansIntoButtons(blackPieces, redPieces){
+    let arrBlackPositions= []  
+    for(let j = 0; j < blackPieces.length; j += 1){  
+       arrBlackPositions.push(blackPieces[j].position)
+
+    }
+   
+    
     for (let i = 0; i < blackPieces.length; i += 1){
-        document.querySelectorAll('.ice')[i].onclick = (e) => {
-            console.log(e.target)
-            showPossibilitiesBlack(e.target, blackPieces, redPieces)
+        let p = 0
+        document.querySelectorAll('.ice')[i].onclick = (ev) => {
+
+            const newSlot = ev.target.parentElement;
+            let xNewSlot = 0
+            let yNewSlot = 0
+            xNewSlot=parseInt(newSlot.className.split('x-')[1]), 
+            yNewSlot=parseInt(newSlot.parentElement.id.split('y-')[1])
+            xandyNewSlot= [xNewSlot,yNewSlot]
+            
+            for(let y=0;y<arrBlackPositions.length;y+=1){
+                if(arrBlackPositions[y][0] === xNewSlot && arrBlackPositions[y][1] === yNewSlot){
+                   
+                    p = y
+                    break
+                }
+            }
+
+            showPossibilitiesBlack(blackPieces[p], blackPieces, redPieces)
         }
     } 
 }
 function showPossibilitiesBlack(chosenBlack, blackPieces, redPieces){
         possibleWest = moveWest(chosenBlack, blackPieces, redPieces);
         possibleEast = moveEast(chosenBlack, blackPieces, redPieces);
+        console.log(possibleWest)
         executeBlackMove(chosenBlack, possibleWest,possibleEast)
+        
 }
+
+
 function executeBlackMove(chosenBlack, possibleWest, possibleEast){
-    for (let i = 0; i < 2; i +=1){
+    for (let i = 0; i < document.querySelectorAll('.possible').length; i +=1){
         document.querySelectorAll('.possible')[i].onclick = (e) => { 
-            // console.log('lllll', e.currentTarget)
             const newSlot = e.target.parentElement;
-            // console.log('newSlot', newSlot, newSlot.parentElement)
+            let xNewSlot = 0
+            let yNewSlot = 0
+            xNewSlot=parseInt(newSlot.className.split('x-')[1]), 
+            yNewSlot=parseInt(newSlot.parentElement.id.split('y-')[1])
             const movedPiece = document.createElement('span');
             movedPiece.className = 'ice';
-            console.log(parseInt(newSlot.classList))
-            console.log(newSlot.parentElement)
             
 
 
@@ -89,22 +117,45 @@ function executeBlackMove(chosenBlack, possibleWest, possibleEast){
             document.querySelector(`#y-${possibleEast[1].toString()} > .x-${possibleEast[0].toString()}`).removeChild(document.querySelector('strong'))
             const pieceSlot = document.querySelector(`#y-${chosenBlack.position[1].toString()} > .x-${chosenBlack.position[0].toString()}`)
             pieceSlot.removeChild(pieceSlot.firstChild);
-            newSlot.appendChild(movedPiece)
-            // chosenBlack.position =  
-        }
+            newSlot.appendChild(movedPiece);
+            
+            chosenBlack.position[0]=xNewSlot
+            chosenBlack.position[1]=yNewSlot
+            }
     }
     turnRedSpansIntoButtons(blackPieces, redPieces);
 }
 //___________________________________________________________________________________________________________________________//
 
-function turnRedSpansIntoButtons(blackPieces, redPieces){
-    for (let i = 0; i < redPieces.length; i += 1){
-        document.querySelectorAll('.fire')[i].onclick = () => {
-            showPossibilitiesRed(redPieces[i], blackPieces, redPieces)
-        
+function turnRedSpansIntoButtons(blackPieces, redPieces){ 
+       let arrRedPositions= []  
+        for(let j = 0; j < redPieces.length; j += 1){  
+           arrRedPositions.push(redPieces[j].position)
+    
         }
+       
+        
+        for (let i = 0; i < redPieces.length; i += 1){
+            
+            document.querySelectorAll('.fire')[i].onclick = (ev) => {
+    
+                const newSlot = ev.target.parentElement;
+                let xNewSlot = 0
+                let yNewSlot = 0
+                xNewSlot=parseInt(newSlot.className.split('x-')[1]), 
+                yNewSlot=parseInt(newSlot.parentElement.id.split('y-')[1])
+                xandyNewSlot= [xNewSlot,yNewSlot]
+                for(y=0;y<arrRedPositions.length;y+=1){
+                    if(arrRedPositions[y][0]=== xNewSlot && arrRedPositions[y][1] === yNewSlot){
+                        p=y
+                        break
+                    }
+                }
+    
+                showPossibilitiesRed(redPieces[p], blackPieces, redPieces)
+            }
+        } 
     }
-}
 function showPossibilitiesRed(chosenRed, blackPieces, redPieces){
     possibleWest = moveWest(chosenRed, blackPieces, redPieces);
     possibleEast = moveEast(chosenRed, blackPieces, redPieces);
@@ -114,6 +165,12 @@ function executeRedMove(chosenRed, possibleWest, possibleEast){
     for (let j = 0; j < 2; j +=1){
         document.querySelectorAll('.possible')[j].onclick = (e) => { 
             const newSlot = e.target.parentElement;
+
+            let xNewSlot = 0
+            let yNewSlot = 0
+            xNewSlot=parseInt(newSlot.className.split('x-')[1]), 
+            yNewSlot=parseInt(newSlot.parentElement.id.split('y-')[1])
+
             const movedPiece = document.createElement('span');
         movedPiece.className = 'fire';
 
@@ -122,10 +179,10 @@ function executeRedMove(chosenRed, possibleWest, possibleEast){
         const pieceSlot = document.querySelector(`#y-${chosenRed.position[1].toString()} > .x-${chosenRed.position[0].toString()}`)
         pieceSlot.removeChild(pieceSlot.firstChild);
         newSlot.appendChild(movedPiece)
+        chosenRed.position[0]=xNewSlot
+        chosenRed.position[1]=yNewSlot
         }
     }
-    console.log(blackPieces)
-    console.log(redPieces)
     turnBlackSpansIntoButtons(blackPieces, redPieces);
 }
    
@@ -145,10 +202,9 @@ function moveWest(piece, blackPieces, redPieces){
 
     if (piece.team === 'black'){
         possibleMoveWest = [piece.position[0]-1, piece.position[1]+1];
-        console.log(possibleMoveWest)
 
         if(possibleMoveWest[0]>7 || possibleMoveWest[0]<0 || possibleMoveWest[1] > 7 || possibleMoveWest[1]<0){
-        answer = 'impossible'
+            return []
         }
         else if(arrAllPositions.indexOf(possibleMoveWest) === -1) {
             document.querySelector(`#y-${possibleMoveWest[1].toString()} > .x-${possibleMoveWest[0].toString()}`).appendChild(document.createElement('strong')).classList += 'possible'
@@ -181,9 +237,8 @@ function moveEast(piece, blackPieces, redPieces){
     arrAllPositions = arrBlackPositions.concat(arrRedPositions)
 
     if (piece.team === 'black'){
-        console.log(piece)
         possibleMoveEast = [piece.position[0]+1, piece.position[1]+1];
-        console.log(possibleMoveEast)
+
 
         if(possibleMoveEast[0]>7 || possibleMoveEast[0]<0 || possibleMoveEast[1] > 7 || possibleMoveEast[1]<0){
         answer = 'impossible'
@@ -267,24 +322,9 @@ function jumpEast(piece, blackPieces, redPieces){
         possibleLandingJumpEast = [piece.position[0]-2, piece.position[1]-2];
         if(possibleLandingJumpEast[0]>7 || possibleLandingJumpEast[0]<0 || possibleLandingJumpEast[1] > 7 || possibleLandingJumpEast[1]<0){
             answer = 'impossible'
-            }
-            else if(arrBlackPositions.indexOf(possibleJumpEast) > -1 && arrAllPositions.indexOf(possibleLandingJumpEast) === -1){
+        } else if(arrBlackPositions.indexOf(possibleJumpEast) > -1 && arrAllPositions.indexOf(possibleLandingJumpEast) === -1){
              document.querySelector(`#y-${possibleLandingJumpEast[1].toString()} > .x-${possibleLandingJumpEast[0].toString()}`).classList+=' possibleJump'
             return possibleLandingJumpEast
         }
     }
 }
-/*colocar pecas
-
-tem algum pulo possivel?
-    se, sim 
-    quantos sao?
-        se 1, indicar para o jogador qual o pulo obrigatorio(voltar perguntar se tem um pulo possivel)
-        se >1, indicar para o jogador quais os pulos possiveis (obrigado a escolher um) (voltar perguntar se tem um pulo possivel)
-    se nao
-    esperar o jogador escolher uma peca
-    mostrar passos possiveis
-vez do oponente
-
-
-*/
